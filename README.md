@@ -3,6 +3,7 @@ This is a MoodLamp Project for the koma's
 
 What will it do:
  It is a MoodLamp. It will bring mood to your room. hehe
+
  There will be an AP mode of the lamp. When you push the power button it creates a WiFi network.
  You can connect to it freely without password which will automatically open a web-app interface.
  In the interface you can adjust the lamp color, brightness, hue and saturation.
@@ -14,6 +15,7 @@ Hardware:
   
   Contains:
    - Core processor: ESP32 WROOM-32 4mb
+   - Near 1M programmable LED strip. ( WS2812B 5VDC )
    - Voltage Step-Up module
    - Voltage Regulator
    - 4db 18650 Battery
