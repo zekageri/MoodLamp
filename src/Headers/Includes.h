@@ -10,6 +10,7 @@
 #include <AsyncTCP.h>
 #include "ESPAsyncWebServer.h"
 #include <Adafruit_NeoPixel.h>
+#include <ArduinoJson.h>
 
 /** VENDOR HEADERS */
 
@@ -18,11 +19,14 @@
 /** OWN HEADERS **/
 #include <Headers/Defines.h>
 
+#include <Headers/ESP_Time.h>
+#include <Headers/File_System.h>
 #include <Headers/Task_Init.h>
 #include <Headers/Server_Handles.h>
 #include <Headers/CaptivePortal.h>
 #include <Headers/Led_Animations.h>
 #include <Headers/Setups.h>
+#include <Headers/Socket.h>
 /** OWN HEADERS **/
 
 #endif
