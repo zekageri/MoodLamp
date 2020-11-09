@@ -26,6 +26,7 @@ static const inline void Main_Setup(){
     Handle_Captive();
     HTTP_Requests();
     pixels.begin();
+    Init_Tasks();
 }
 
 #endif

@@ -3,6 +3,7 @@
 
     /** TASKS **/
     xTaskHandle File_System_Task_Handle;
+    xTaskHandle Time_System_Task_Handle;
     /** TASKS **/
     #define ever (;;)
     #define FS_NO_GLOBALS
@@ -32,4 +33,7 @@
         void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len);
     /** SOCKET DEFINES */
 
+    /** ESP TIME **/
+        void Time_System( void * parameter );
+    /** ESP TIME **/
 #endif
