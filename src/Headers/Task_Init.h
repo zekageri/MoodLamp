@@ -10,8 +10,8 @@ static const inline void Time_System_Task_Init(int Stack_Depth,int Core,int Prio
 }
 
 static const inline void Init_Tasks(){
-    File_System_Task_Init(5120,1,1);
-    Time_System_Task_Init(1024,1,1);
+    File_System_Task_Init(4120,1,1);
+    Time_System_Task_Init(4048,1,1);
 }
 
 #endif

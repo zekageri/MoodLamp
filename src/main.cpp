@@ -8,5 +8,5 @@ void setup() {
 
 void loop() {
   dnsServer.processNextRequest();
-  vTaskDelay(2);
+  vTaskDelay(5);
 }

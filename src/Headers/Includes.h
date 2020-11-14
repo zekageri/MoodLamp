@@ -11,6 +11,8 @@
 #include "ESPAsyncWebServer.h"
 #include <Adafruit_NeoPixel.h>
 #include <ArduinoJson.h>
+#include <Wire.h>
+#include "RTClib.h"
 
 /** VENDOR HEADERS */
 

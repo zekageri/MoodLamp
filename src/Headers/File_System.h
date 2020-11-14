@@ -87,7 +87,7 @@
         for ever{
             Dynamic_File_Size_Manager();
             Monitor_Space();
-            vTaskDelay(5);
+            vTaskDelay(10);
         }
     }
 #endif

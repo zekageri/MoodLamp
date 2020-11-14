@@ -9,6 +9,7 @@
     #define FS_NO_GLOBALS
     #define U_LITTLEFS 100
     #define CONFIG_LITTLEFS_CACHE_SIZE 512
+    RTC_DS3231 rtc;
     
     DNSServer dnsServer;
     AsyncWebServer server(80);
