@@ -17,4 +17,11 @@ void handleRequest(AsyncWebServerRequest *request) {
 
 };
 
+void CaptivePortal( void * parameter ){
+  Handle_Captive();
+  for ever{
+    dnsServer.processNextRequest();
+    vTaskDelay(1);
+  }
+}
 #endif

@@ -4,6 +4,8 @@
     /** TASKS **/
     xTaskHandle File_System_Task_Handle;
     xTaskHandle Time_System_Task_Handle;
+    xTaskHandle Animation_Task_Handle;
+    xTaskHandle CaptivePortal_Task_Handle;
     /** TASKS **/
     #define ever (;;)
     #define FS_NO_GLOBALS
@@ -22,14 +24,23 @@
 
 
     /** LED STRIP ANIMATIONS **/
-    #define PIN 15
-    #define NUM 25
-    Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM,PIN, NEO_GRB + NEO_KHZ800);
+    typedef struct{
+        boolean TEMPERATURE = 0,FIRE = 0,BASIC_FIRE = 0;
+        boolean TYPES[4] = {TEMPERATURE,FIRE,BASIC_FIRE};
+    }  Animation_types;
+    Animation_types ANIMATION[4];
+
+    typedef struct{
+        boolean PRIDE = 1;
+        boolean TYPES[2] = {PRIDE};
+    } Static_types;
+    Static_types STATIC[2];
 
     const char *ErrorLog = "/Errorlog.txt";
     const char *Config = "/Config.txt";
 
     /** SOCKET DEFINES */
+        static const inline void Handle_Captive();
         static const inline void Send_Async(String msg,String SpecChar);
         void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len);
     /** SOCKET DEFINES */
@@ -37,4 +48,8 @@
     /** ESP TIME **/
         void Time_System( void * parameter );
     /** ESP TIME **/
+
+    /** TASK DECLARATIONS **/
+        void CaptivePortal( void * parameter );
+    /** TASK DECLARATIONS **/
 #endif

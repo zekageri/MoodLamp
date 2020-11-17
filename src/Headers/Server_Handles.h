@@ -7,8 +7,26 @@
             request->send(response);
         });
 
-        server.onNotFound([](AsyncWebServerRequest *request){
-            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/NotFound.html.gz", "text/html");
+        server.on("/Admin.html", HTTP_GET, [](AsyncWebServerRequest *request) {
+            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Admin.html.gz", "text/html");
+            response->addHeader("Content-Encoding", "gzip");
+            request->send(response);
+        });
+
+        server.on("/Admin.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Admin.min.css.gz", "text/css");
+            response->addHeader("Content-Encoding", "gzip");
+            request->send(response);
+        });
+    /*
+        server.on("/Admin.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Admin.css.gz", "text/css");
+            response->addHeader("Content-Encoding", "gzip");
+            request->send(response);
+        });*/
+/*
+        server.on("/Admin.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Admin.js.gz", "text/javascript");
             response->addHeader("Content-Encoding", "gzip");
             request->send(response);
         });
@@ -18,13 +36,13 @@
             response->addHeader("Content-Encoding", "gzip");
             request->send(response);
         });
-
+*/
         server.on("/Index.css", HTTP_GET, [](AsyncWebServerRequest *request) {
             AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Index.css.gz", "text/css");
             response->addHeader("Content-Encoding", "gzip");
             request->send(response);
         });
-
+/*
         server.on("/fontawesome.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
             AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/fontawesome.min.js.gz", "text/javascript");
             response->addHeader("Content-Encoding", "gzip");
@@ -35,7 +53,7 @@
             response->addHeader("Content-Encoding", "gzip");
             request->send(response);
         });
-
+*/
         server.on("/Bootstrap.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
             AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Bootstrap.min.js.gz", "text/javascript");
             response->addHeader("Content-Encoding", "gzip");
@@ -54,24 +72,12 @@
             request->send(response);
         });
 
-
-        server.on("/Admin.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Admin.html.gz", "text/html");
+        server.onNotFound([](AsyncWebServerRequest *request){
+            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/NotFound.html.gz", "text/html");
             response->addHeader("Content-Encoding", "gzip");
             request->send(response);
         });
 
-        server.on("/Admin.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Admin.css.gz", "text/css");
-            response->addHeader("Content-Encoding", "gzip");
-            request->send(response);
-        });
-
-        server.on("/Admin.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-            AsyncWebServerResponse* response = request->beginResponse(LITTLEFS, "/Admin.js.gz", "text/javascript");
-            response->addHeader("Content-Encoding", "gzip");
-            request->send(response);
-        });
     }
 
 #endif

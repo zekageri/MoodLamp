@@ -10,19 +10,20 @@ class ESP_Time
         long Starting_Time  = millis();
         int SecTime         = 1000;
         int Year            = 2020;
-        int Month,Day,Hour,Min,Sec = 0;
+        int Month = 0,Day = 0,Hour = 0,Min = 0,Sec = 0;
         
         
         int months[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
         char daysOfTheWeek[7][13] = {"Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"};
 
         void Assemble_Time(){
-            String ReadableMonth,ReadableHour,ReadableMin,ReadableSec = "0";
+            String ReadableMonth = "0",ReadableDay = "0",ReadableHour = "0",ReadableMin = "0",ReadableSec = "0";
             if(Hour < 10)   {ReadableHour   += String(Hour);}   else{ReadableHour   = String(Hour);}
             if(Min < 10)    {ReadableMin    += String(Min);}    else{ReadableMin    = String(Min);}
             if(Sec < 10)    {ReadableSec    += String(Sec);}    else{ReadableSec    = String(Sec);}
             if(Month < 10)  {ReadableMonth  += String(Month);}  else{ReadableMonth  = String(Month);}
-            CurrentTime = String(Year) + ":" + ReadableMonth + "  " + ReadableHour += ":" + ReadableMin += ":" + ReadableSec;
+            if(Day < 10)    {ReadableDay    += String(Day);}    else{ReadableDay    = String(Day);}
+            CurrentTime = String(Year) + " " + ReadableMonth + "/"+ ReadableDay+ " " + ReadableHour += ":" + ReadableMin += ":" + ReadableSec;
             Send_Async(CurrentTime,";InternalTime");
         }
 
@@ -101,7 +102,6 @@ class ESP_Time
 ESP_Time Time;
 
     void Time_System( void * parameter ){
-        //Time.Set_Time(2020,11,10,10,40,0);
         Time.Setup_RTC();
         for ever{
             Time.Tick();

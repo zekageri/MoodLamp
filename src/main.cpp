@@ -7,6 +7,6 @@ void setup() {
 }
 
 void loop() {
-  dnsServer.processNextRequest();
+  //dnsServer.processNextRequest();
   vTaskDelay(5);
 }

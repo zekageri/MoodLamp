@@ -24,8 +24,7 @@ static const inline void File_System_Init(){
 static const inline void Main_Setup(){
     Wire.begin(21,22);
     File_System_Init();
-    Handle_Captive();
-    //pixels.begin();
+    //Handle_Captive();
     Init_Tasks();
 }
 
