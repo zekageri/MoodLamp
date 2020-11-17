@@ -22,17 +22,18 @@
     const char* ssid     = "KomaMoodLamp";
     const char* password = "komalamp";
 
-
     /** LED STRIP ANIMATIONS **/
     typedef struct{
-        boolean TEMPERATURE = 0,FIRE = 0,BASIC_FIRE = 0;
-        boolean TYPES[4] = {TEMPERATURE,FIRE,BASIC_FIRE};
+        boolean TEMPERATURE = 0,FIRE = 0,BASIC_FIRE = 0,RAINBOWWITHGLITTER = 0,RAINBOW = 0,JUGGLE = 0,WATER = 0,
+        FIRE_NEW = 0,PRIDE = 0, SINUS = 0, BPM = 0,CONFETTI = 0;
+        boolean TYPES[13] = 
+        {TEMPERATURE,FIRE,BASIC_FIRE,RAINBOWWITHGLITTER,RAINBOW,JUGGLE,WATER,FIRE_NEW,PRIDE,SINUS,BPM,CONFETTI};
     }  Animation_types;
     Animation_types ANIMATION[4];
 
     typedef struct{
-        boolean PRIDE = 1;
-        boolean TYPES[2] = {PRIDE};
+        boolean SOLIDBLUE = 0;
+        boolean TYPES[2] = {SOLIDBLUE};
     } Static_types;
     Static_types STATIC[2];
 

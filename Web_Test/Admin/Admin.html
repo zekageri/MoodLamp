@@ -17,8 +17,7 @@
     <!-- APPLE FASZSÁGOK -->
     
     <title>Koma'k Mood Lamp</title>
-    <!-- <link rel="stylesheet" href="Bootstrap.min.css"> -->
-    <link rel="stylesheet" href="Admin.css">
+    <!-- <link rel="stylesheet" href="Admin.css">-->
 </head>
 
 <body>
@@ -54,9 +53,31 @@
         <!-- Page Content  -->
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 id="menuIndicator" class="mb-4">DashBoard</h2>
-
+            
             <div class="DashBoard" style="display: block;">
-                <h1>DashBoard</h1>
+                <span id="selectedanimid"></span><br>
+                <form>
+                    <div class="form-group">
+                        <label for="AnimSelect">Animáció Választás</label>
+                        <select class="form-control" id="AnimSelect">
+                          <option value="Default" disabled>Animációk</option>
+                          <option value="0">TEMPERATURE</option>
+                          <option value="1">FIRE</option>
+                          <option value="2">BASIC_FIRE</option>
+                          <option value="3">CONFETTI</option>
+                          <option value="4">RAINBOW</option>
+                          <option value="5">RAINBOW WITH GLITTER</option>
+                          <option value="6">JUGGLE</option>
+                          <option value="7">WATER</option>
+                          <option value="8">FIRE</option>
+                          <option value="9">PRIDE</option>
+                          <option value="10">SINUS</option>
+                          <option value="11">PULSE</option>
+                          <option value="OFF">OFF</option>
+                        </select>
+                      </div>
+                </form>
+
             </div>
             <div class="FileSystem" style="display: none;">
 
@@ -70,18 +91,73 @@
         </div>
 
     </div>
-    <!-- <script src="fontawesome.min.js"></script> -->
-    <!-- <script src="solid.min.js" crossorigin="anonymous"></script> -->
-    <script src="Jquery_3.3.5.min.js"></script>
-    <script src="Bootstrap.min.js"></script>
-    <!-- <script src="Admin.js"></script> -->
+    <!-- <script src="Jquery_3.3.5.min.js"></script>
+    <script src="Bootstrap.min.js"></script>-->
 
     <script>
+    !function(l,g){var b={g:[],B:{},C:0,head:g.getElementsByTagName("head")[0],a:{},p:0,q:{},f:[],e:{},m:0,d:{},c:{},s:0,u:function(){for(var i in b.k)b.k[i]&&b.A(b.k[i])},k:["Array","Function","Object","String"],A:function(i){b["is_"+i.toLowerCase()]=function(t){return void 0!==t&&Object.prototype.toString.call(t)=="[object "+i+"]"}},i:function(i){return this.is_function(i)||(i=function(){}),i},n:function(i,t){for(var s in i)if(i[s]===t)return s;return-1},is_defined:function(a){try{if(eval("window."+a))return!0}catch(i){}return!1},t:function(i,t){this.is_object(t)&&(t.integrity&&i.setAttribute("integrity",t.integrity),t.crossorigin&&i.setAttribute("crossorigin",t.crossorigin))},importer:function(i,t){var s,e,r,n,h,c,o,a={};for(r in i)(n=i[r])&&(h=this.is_string(n)?[n]:this.is_object(n)?n.urls:n,this.is_array(h)&&(s=[],this.is_array(this.a[r])&&(s=this.a[r]),a[r]=h,this.a[r]=s.concat(h),this.q[r]=n));if(n={},this.is_object(t)&&(this.is_object(t.shim)||(this.is_object(t.deps)?t.shim=t.deps:this.is_object(t.dependencies)&&(t.shim=t.dependencies)),this.is_object(t.shim)))for(c in h=t.shim)if(s=h[c],this.a[c]&&s&&(this.is_string(s)&&(s=[s]),this.is_array(s))){for(e in o=[],s)r=s[e],this.a[r]&&r!==c&&o.push(r);s=[],this.is_array(this.d[c])&&(s=this.d[c]),n[c]=o,this.d[c]=s.concat(o)}return{a:a,d:n}},css:{}};b.css.l=function(i){if(!g.styleSheets)return!1;var t,s,e;for(t in g.styleSheets)if(0!==(s=g.styleSheets[t]))try{if(s.rules&&(e=b.css.r(s.rules,i))||s.cssRules&&(e=b.css.r(s.cssRules,i)))return e}catch(i){}return!1},b.css.r=function(i,t){var s;for(s in i)if(i[s].selectorText===t)return!0;return!1},b.load=function(i,t,s){var e,r;if(!this.is_object(i))return!1;for(e in this.is_function(t)&&(s=t,t={}),this.is_object(t)||(t={}),(i=this.importer(i,t)).a)r=i.a[e],this.d[e]||this.b(e,r);this.is_function(t.callback)&&this.ready([],t.callback),this.is_function(s)&&this.ready([],s)},b.ready=function(i,t){var s,e;if(this.is_function(i))t=i,i=[];else for(s in this.is_array(i)&&!this.is_string(i)||(i=[i]),i)e=i[s],this.a[e]&&!this.d[e]&&this.b(e,this.a[e]);return this.g.push({i:this.i(t),a:i}),this.j()},b.j=function(){var i,t,s,e,r,n=[],h=[];for(i in this.g)if(r=this.g[i],this.is_object(r)&&this.is_array(r.a)&&this.is_function(r.i)){if(e=!1,0<r.a.length){for(s in t=0,this.c)0<=this.n(r.a,s)&&t++;t===r.a.length&&(e=!0)}else this.p===this.s+this.m&&(e=!0);e?h.push(r.i):n.push(this.g[i])}for(i in this.g=n,h)h[i](this.c,this.e)},b.w=function(){var i,t,s,e;for(s in this.d)if((e=this.d[s])&&!this.c[s]){for(t in i=0,e)this.c[e[t]]&&i++;i===e.length&&(this.b(s,this.a[s]),delete this.d[s])}},b.b=function(i,t){return-1===this.n(this.f,i)&&(this.p++,this.f.push(i),this.b.o(i,t))},b.b.o=function(i,t){var s,e="js",r={loaded:!1,h:i,v:b.q[i],f:!0,url:t.shift(),urls:t};if(-1<r.url.indexOf(".css")){if(e="css",b.css.l(i))return r.f=!1,b.b.c(r);(s=g.createElement("link")).crossorigin=!0,s.rel="stylesheet",s.href=r.url}else{if(b.is_defined(i))return r.f=!1,b.b.c(r);(s=g.createElement("script")).src=r.url}return b.t(s,r.v),s.onload=function(){return"js"===e&&!b.is_defined(i)||"js"!==e&&!b.css.l(i)&&Object.hasOwnProperty.call(l,"ActiveXObject")&&!l.ActiveXObject?b.b.e(r):b.b.c(r)},s.onreadystatechange=function(){if(!this.readyState||"loaded"===this.readyState||"complete"===this.readyState)return this.onreadystatechange=null,"js"!==e||b.is_defined(i)?b.b.c(r):b.b.e(r)},s.onerror=function(){return b.b.e(r)},b.head.appendChild(s)},b.b.e=function(i){return i.f=!1,b.e[i.h]||(b.e[i.h]=[]),b.e[i.h].push(i.url),i.urls.length?b.b.o(i.h,i.urls):(b.m++,b.j())},b.b.c=function(i){return i.loaded||(i.loaded=!0,b.c[i.h]=i.url,b.s++),b.w(),b.j()},b.u(),l.fallback=l.fbk=b}(window,document);
+    fallback.load({
+        global_css: [
+            'Admin.css',
+        ],
+        jQuery: [
+            'Jquery_3.3.5.min.js',
+        ],
+    
+        Bootstrap: [
+            'Bootstrap.min.js',
+        ],
+    }, {
+        callback: function (success, failed) {
+            if (failed.length > 0) {
+                Debug_Print("Nem sikerült betölteni: ", failed);
+            }
+        }
+    
+    });
+
+    fallback.ready(function () {
+        WSconnect();
+        fullHeight();
+        Menu_System();
+        Get_Animation();
+    });
+        /*
         $( document ).ready(function() {
             WSconnect();
             fullHeight();
             Menu_System();
-        });
+            Get_Animation();
+        });*/
+
+        function Get_Animation(){
+            $( "#AnimSelect" ).change(function() {
+                var Param = "param0=" + $(this).val();
+                httpGetAsync("/Set_Animation", Callback, Param);
+            });
+        }
+
+        var Callback = function Get_Callback(Response) {
+            console.log(Response);
+            if(Response.includes("AnimSwitched")){
+                var Temp = Response.split(";");
+                $("#selectedanimid").text("Selected Animation Number: " + Temp[1] );
+            }
+        }
+        function httpGetAsync(theUrl, callback, value) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    if (xmlHttp.status == 200) {
+                        callback(xmlHttp.responseText);
+                    } else {
+                        alert(xmlHttp.statusText);
+                    }
+                }
+            }
+            xmlHttp.open("GET", theUrl + "?" + value, true);
+            xmlHttp.send(null);
+        }
 
         var PageBefore = "DashBoard";
         function Menu_System(){

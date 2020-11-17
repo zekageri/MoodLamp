@@ -27,7 +27,7 @@ CRGBPalette16 gPal;
 /** FIRE ANIMATION DEFINES **/
 
 /** NEW ANIMATION DECLARATIONS **/
-uint8_t power = 1;
+uint8_t power = 0;
 uint8_t autoplay = 0;
 uint8_t autoplayDuration = 10;
 unsigned long autoPlayTimeout = 0;
@@ -51,6 +51,7 @@ void Led_Setup(){
     FastLED.setBrightness( FIRE_BRIGHTNESS );
     gPal = HeatColors_p;
   }
+  power = 0;
 }
 
 void Fire2012WithPalette(){
@@ -339,32 +340,39 @@ void nextPalette(){
   void Animation( void * parameter ){
     Led_Setup();
     for ever{
-      if (power == 0) {fill_solid(leds, NUM_LEDS, CRGB::Black);}
-      else {
-        //confetti();
-        //rainbowWithGlitter();
-        //rainbow();
+      if (power == 0) {
+        fill_solid(leds, NUM_LEDS, CRGB::Black);
+        FastLED.show();
+        vTaskDelay(5);
+      }else {
         //colorWaves();
-
-        juggle();
-        //showSolidColor();
-        //water();
-        //fire();
-        //pride();
-        //sinelon(); // sinus?
-        //bpm(); // pulse 
-        /*
-        if(ANIMATION->TEMPERATURE){
+        if(ANIMATION->TYPES[0]){
           Temperature_Loop();
-        }else if(ANIMATION->FIRE){
+        }else if(ANIMATION->TYPES[1]){
           Fire_Loop();
-        }else if(ANIMATION->BASIC_FIRE){
+        }else if(ANIMATION->TYPES[2]){
           Basic_Fire_Loop();
-        }else if(STATIC->PRIDE){
+        }else if(STATIC->TYPES[0]){
+          showSolidColor();
+        }else if(ANIMATION->TYPES[3]){
+          confetti();
+        }else if(ANIMATION->TYPES[4]){
+          rainbow();
+        }else if(ANIMATION->TYPES[5]){
+          rainbowWithGlitter();
+        }else if(ANIMATION->TYPES[6]){
+          juggle();
+        }else if(ANIMATION->TYPES[7]){
+          water();
+        }else if(ANIMATION->TYPES[8]){
+          fire();
+        }else if(ANIMATION->TYPES[9]){
           pride();
-        }else{
-          vTaskDelay(5);
-        }*/
+        }else if(ANIMATION->TYPES[10]){
+          sinelon();
+        }else if(ANIMATION->TYPES[11]){
+          bpm();
+        }
         FastLED.show();
         vTaskDelay(1000 / FRAMES_PER_SECOND);
       }
