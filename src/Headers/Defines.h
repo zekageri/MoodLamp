@@ -1,6 +1,9 @@
 #ifndef Defines_h
 #define Defines_h
 
+    //#define FASTLED_ALLOW_INTERRUPTS 0
+    //#define FASTLED_INTERRUPT_RETRY_COUNT 1
+
     /** TASKS **/
     xTaskHandle File_System_Task_Handle;
     xTaskHandle Time_System_Task_Handle;
@@ -20,7 +23,7 @@
 
 
     const char* ssid     = "KomaMoodLamp";
-    const char* password = "komalamp";
+    const char* password = "komalamp12345";
 
     /** LED STRIP ANIMATIONS **/
     typedef struct{
@@ -39,6 +42,9 @@
 
     const char *ErrorLog = "/Errorlog.txt";
     const char *Config = "/Config.txt";
+    /** FILE SYSTEM */
+        static const inline void File_System_Init();
+    /** FILE SYSTEM */
 
     /** SOCKET DEFINES */
         static const inline void Handle_Captive();

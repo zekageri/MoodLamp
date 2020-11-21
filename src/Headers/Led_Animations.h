@@ -27,7 +27,7 @@ CRGBPalette16 gPal;
 /** FIRE ANIMATION DEFINES **/
 
 /** NEW ANIMATION DECLARATIONS **/
-uint8_t power = 0;
+boolean power = false;
 uint8_t autoplay = 0;
 uint8_t autoplayDuration = 10;
 unsigned long autoPlayTimeout = 0;
@@ -44,14 +44,14 @@ uint8_t currentPaletteIndex = 0;
 #include <Headers/twinkleFox.h>
 
 void Led_Setup(){
-  vTaskDelay(500);
+  vTaskDelay(1000);
   FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalSMD5050 );
   FastLED.setBrightness( BRIGHTNESS );
   if(ANIMATION->FIRE || ANIMATION->BASIC_FIRE){
     FastLED.setBrightness( FIRE_BRIGHTNESS );
     gPal = HeatColors_p;
   }
-  power = 0;
+  power = false;
 }
 
 void Fire2012WithPalette(){
@@ -337,15 +337,14 @@ void nextPalette(){
   targetPalette = palettes[currentPaletteIndex];
 }*/
 
+  boolean OnceTurnOff = true;
   void Animation( void * parameter ){
     Led_Setup();
     for ever{
-      if (power == 0) {
+      if ( !power) {
         fill_solid(leds, NUM_LEDS, CRGB::Black);
         FastLED.show();
-        vTaskDelay(5);
       }else {
-        //colorWaves();
         if(ANIMATION->TYPES[0]){
           Temperature_Loop();
         }else if(ANIMATION->TYPES[1]){

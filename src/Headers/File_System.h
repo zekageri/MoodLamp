@@ -1,6 +1,8 @@
 #ifndef File_System_h
 #define File_System_h
 
+    static const inline void File_System_Init(){LITTLEFS.begin();}
+
     String Error_Log(String szoveg){
         File f = LITTLEFS.open(ErrorLog, "a");
         if (!f) {} else {
@@ -84,6 +86,7 @@
     }
 
     void File_System( void * parameter ){
+        File_System_Init();
         for ever{
             Dynamic_File_Size_Manager();
             Monitor_Space();

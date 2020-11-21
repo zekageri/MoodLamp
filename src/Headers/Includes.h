@@ -9,8 +9,9 @@
 #include <DNSServer.h>
 #include <AsyncTCP.h>
 #include "ESPAsyncWebServer.h"
-//#include <Adafruit_NeoPixel.h>
+
 #include <FastLED.h>
+
 #include <ArduinoJson.h>
 #include <Wire.h>
 #include "RTClib.h"

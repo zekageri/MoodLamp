@@ -63,9 +63,9 @@ class ESP_Time
                 Sec = 0;
                 Min++;
                 if(Min > 59){
-                    Refresh_from_RTC();
                     Min = 0;
                     Hour++;
+                    Refresh_from_RTC();
                     if(Hour > 23){
                         Hour = 0;
                         Day++;

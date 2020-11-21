@@ -1,30 +1,41 @@
 #ifndef Setups_h
 #define Setups_h
 
-static const inline void Handle_Captive(){
-    WiFi.softAP(ssid, password);
-    dnsServer.start(53, "*", WiFi.softAPIP());
-    ws.onEvent(onWsEvent);
-    server.addHandler(&ws);
-    server.addHandler(new CaptiveRequestHandler()).setFilter(ON_AP_FILTER);
-    server.begin();
-    IPAddress IP = WiFi.softAPIP();
-    Serial.print("Mood Lamp Started with ip: ");
-    Serial.println(IP);
-}
+static const inline void I2C_Begin(){Wire.begin(21,22,400000);}
+static const inline void Get_Config(){}
 
-static const inline void Get_Config(){
+const char* STA_ssid = "Emelet";
+const char* STA_password = "Administrator";
 
-}
+int Attempts = 0;
+static const inline void Handle_STA(){
+  WiFi.disconnect();
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(STA_ssid, STA_password);
+  delay(50);
+  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
+      WiFi.disconnect();
+      if(Attempts < 4){
+        Attempts++;
+        Handle_STA();
+      }else{
+        Serial.printf("WiFi Failed!\n");
+        return;
+      }
+  }
 
-static const inline void File_System_Init(){
-    LITTLEFS.begin();
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+  ws.onEvent(onWsEvent);
+  server.addHandler(&ws);
+  HTTP_Requests();
+  server.begin();
 }
 
 static const inline void Main_Setup(){
-    Wire.begin(21,22);
-    File_System_Init();
-    //Handle_Captive();
+    Serial.begin(115200);
+    I2C_Begin();
+    Handle_STA();
     Init_Tasks();
 }
 

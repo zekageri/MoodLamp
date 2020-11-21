@@ -19,9 +19,9 @@ static const inline void CaptivePortal_Task_Init(int Stack_Depth,int Core,int Pr
 
 static const inline void Init_Tasks(){
     File_System_Task_Init(4120,1,1);
+    //CaptivePortal_Task_Init(4000,1,1);
     Time_System_Task_Init(4048,1,1);
-    Animation_Task_Init(5048,1,1);
-    CaptivePortal_Task_Init(10000,1,1);
+    Animation_Task_Init(4048,0,1);
 }
 
 #endif
