@@ -1,11 +1,13 @@
 #ifndef Animations_h
 #define Animations_h
 
+int ANIMATION = -1;
+uint16_t currentBrightness = 50;
 
-#define LED_PIN     18
-#define NUM_LEDS    16
-#define CHIPSET     WS2811
-#define COLOR_ORDER GRB
+#define LED_PIN     27
+#define NUM_LEDS    76
+#define CHIPSET     WS2812
+#define COLOR_ORDER GRB //GBR //RBG //RGB //BRG //BGR
 CRGB leds[NUM_LEDS];
 /**  TEMPERATURE CHANGE DEFINES **/
 #define BRIGHTNESS  128
@@ -16,8 +18,7 @@ CRGB leds[NUM_LEDS];
 /** TEMPERATURE CHANGE DEFINES **/
 
 /** FIRE ANIMATION DEFINES **/
-#define FIRE_BRIGHTNESS  100
-#define FRAMES_PER_SECOND 40
+#define FRAMES_PER_SECOND 60
 bool gReverseDirection = false;
 CRGBPalette16 gPal;
 #define COOLING  20 // Default 55, suggested range 20-100 
@@ -39,19 +40,35 @@ uint8_t gHue = 0;
 uint8_t speed = 30;
 uint8_t currentPaletteIndex = 0;
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
-
+boolean Can_Set_Static = false;
+int Web_R= 0, Web_G= 0, Web_B = 0;
 #include <Headers/palettes.h>
 #include <Headers/twinkleFox.h>
 
 void Led_Setup(){
-  vTaskDelay(1000);
+  vTaskDelay(100);
+  pinMode(LED_PIN, OUTPUT);
   FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalSMD5050 );
   FastLED.setBrightness( BRIGHTNESS );
-  if(ANIMATION->FIRE || ANIMATION->BASIC_FIRE){
-    FastLED.setBrightness( FIRE_BRIGHTNESS );
-    gPal = HeatColors_p;
-  }
   power = false;
+}
+
+void Null_Animations(){
+  ANIMATION = -1;
+}
+
+void Set_Static_From_Web(){
+  if(Can_Set_Static){
+    fill_solid(leds, NUM_LEDS, CRGB::Black);
+    FastLED.show();
+    Can_Set_Static = false;
+    Null_Animations();
+    for(int i = 0; i < NUM_LEDS;i++){
+      leds[i] = CRGB( Web_R, Web_G, Web_B);
+      FastLED.show();
+      vTaskDelay(15);
+    }
+  }
 }
 
 void Fire2012WithPalette(){
@@ -103,17 +120,9 @@ void Basic_Fire(){
     }
 }
 
-void Basic_Fire_Loop(){
-  Basic_Fire();
-  FastLED.show();
-  //FastLED.delay(1000 / FRAMES_PER_SECOND);
-}
-
 void Fire_Loop(){
   random16_add_entropy( esp_random());
   Fire2012WithPalette();
-  FastLED.show();
-  //FastLED.delay(1000 / FRAMES_PER_SECOND);
 }
 
 void colorwaves( CRGB* ledarray, uint16_t numleds, CRGBPalette16& palette)
@@ -167,7 +176,7 @@ void colorwaves( CRGB* ledarray, uint16_t numleds, CRGBPalette16& palette)
   }
 }
 
-void colorWaves(){
+void colorWaves(){ // we have to investigate the palettes!! palettes[]
   colorwaves(leds, NUM_LEDS, currentPalette);
 }
 
@@ -175,38 +184,29 @@ void pride(){
   static uint16_t sPseudotime = 0;
   static uint16_t sLastMillis = 0;
   static uint16_t sHue16 = 0;
-
   uint8_t sat8 = beatsin88( 87, 220, 250);
   uint8_t brightdepth = beatsin88( 341, 96, 224);
   uint16_t brightnessthetainc16 = beatsin88( 203, (25 * 256), (40 * 256));
   uint8_t msmultiplier = beatsin88(147, 23, 60);
-
   uint16_t hue16 = sHue16;//gHue * 256;
   uint16_t hueinc16 = beatsin88(113, 1, 3000);
-
   uint16_t ms = millis();
   uint16_t deltams = ms - sLastMillis ;
   sLastMillis  = ms;
   sPseudotime += deltams * msmultiplier;
   sHue16 += deltams * beatsin88( 400, 5, 9);
   uint16_t brightnesstheta16 = sPseudotime;
-
   for ( uint16_t i = 0 ; i < NUM_LEDS; i++) {
     hue16 += hueinc16;
     uint8_t hue8 = hue16 / 256;
-
     brightnesstheta16  += brightnessthetainc16;
     uint16_t b16 = sin16( brightnesstheta16  ) + 32768;
-
     uint16_t bri16 = (uint32_t)((uint32_t)b16 * (uint32_t)b16) / 65536;
     uint8_t bri8 = (uint32_t)(((uint32_t)bri16) * brightdepth) / 65536;
     bri8 += (255 - brightdepth);
-
     CRGB newcolor = CHSV( hue8, sat8, bri8);
-
     uint16_t pixelnumber = i;
     pixelnumber = (NUM_LEDS - 1) - pixelnumber;
-
     nblend( leds[pixelnumber], newcolor, 64);
   }
 }
@@ -286,31 +286,22 @@ void showSolidColor(){
 
 void heatMap(CRGBPalette16 palette, bool up){
   fill_solid(leds, NUM_LEDS, CRGB::Black);
-
   random16_add_entropy(random(256));
-
   static byte heat[NUM_LEDS];
-
   byte colorindex;
-
   for ( uint16_t i = 0; i < NUM_LEDS; i++) {
     heat[i] = qsub8( heat[i],  random8(0, ((cooling * 10) / NUM_LEDS) + 2));
   }
-
   for ( uint16_t k = NUM_LEDS - 1; k >= 2; k--) {
     heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2] ) / 3;
   }
-
   if ( random8() < sparking ) {
     int y = random8(7);
     heat[y] = qadd8( heat[y], random8(160, 255) );
   }
-
   for ( uint16_t j = 0; j < NUM_LEDS; j++) {
     colorindex = scale8(heat[j], 190);
-
     CRGB color = ColorFromPalette(palette, colorindex);
-
     if (up) {
       leds[j] = color;
     }
@@ -321,58 +312,111 @@ void heatMap(CRGBPalette16 palette, bool up){
 }
 
 void fire(){
-  heatMap(HeatColors_p, true);
+  heatMap(HeatColors_p, false);
 }
-
 void water(){
-  heatMap(IceColors_p, false);
+  heatMap(IceColors_p, true);
 }
-/*
-void nextPattern(){
-  currentPatternIndex = (currentPatternIndex + 1) % patternCount;
+void PartyHeatMap(){
+  heatMap(PartyColors_p, false);
+}
+void ForestHeatMap(){
+  heatMap(ForestColors_p, false);
+}
+void LavaHeatMap(){
+  heatMap(LavaColors_p, false);
+}
+void CloudHeatMap(){
+  heatMap(CloudColors_p, false);
+}
+void OceanHeatMap(){
+  heatMap(OceanColors_p, false);
+}
+void RainbowStripeHeatMap(){
+  heatMap(RainbowStripeColors_p, false);
+}
+void FairyHeatMap(){
+  heatMap(FairyLight_p, false);
+}
+void HolyHeatMap(){
+  heatMap(Holly_p, false);
+}
+void RetroC9_pHeatMap(){
+  heatMap(RetroC9_p, false);
+}
+void TestAnim(){
+  CRGB color1 = CRGB( 252, 186, 3 );
+  CRGB color2 = CRGB( 252, 3, 177 );
+  fill_gradient_RGB(leds,NUM_LEDS,color1,color2);
 }
 
-void nextPalette(){
-  currentPaletteIndex = (currentPaletteIndex + 1) % paletteCount;
-  targetPalette = palettes[currentPaletteIndex];
-}*/
+  static const inline void Get_Animation(int ANIM){
+    Null_Animations();
+    ANIMATION = ANIM;
+    //bitSet(ANIMATION,ANIM);
+    power = true;
+    Can_Set_Static = false;
+    Serial.print("Starting Animation: ");
+    Serial.println(ANIM);
+    Save_Current_Animation(ANIM);
+  }
 
-  boolean OnceTurnOff = true;
   void Animation( void * parameter ){
     Led_Setup();
+    int lastAnim = Get_Current_Animation();
+    if(lastAnim != -1){Get_Animation(lastAnim);}
     for ever{
-      if ( !power) {
+      if ( !power ) {
         fill_solid(leds, NUM_LEDS, CRGB::Black);
         FastLED.show();
+        vTaskDelay(100);
       }else {
-        if(ANIMATION->TYPES[0]){
+        Set_Static_From_Web();
+        if(ANIMATION == 0){
           Temperature_Loop();
-        }else if(ANIMATION->TYPES[1]){
+        }else if( ANIMATION == 1 ){
           Fire_Loop();
-        }else if(ANIMATION->TYPES[2]){
-          Basic_Fire_Loop();
-        }else if(STATIC->TYPES[0]){
-          showSolidColor();
-        }else if(ANIMATION->TYPES[3]){
+        }else if( ANIMATION == 2 ){
+          PartyHeatMap();
+        }else if(ANIMATION == 3){
           confetti();
-        }else if(ANIMATION->TYPES[4]){
+        }else if(ANIMATION == 4){
           rainbow();
-        }else if(ANIMATION->TYPES[5]){
+        }else if(ANIMATION == 5){
           rainbowWithGlitter();
-        }else if(ANIMATION->TYPES[6]){
+        }else if(ANIMATION == 6){
           juggle();
-        }else if(ANIMATION->TYPES[7]){
+        }else if(ANIMATION == 7){
           water();
-        }else if(ANIMATION->TYPES[8]){
+        }else if(ANIMATION == 8){
           fire();
-        }else if(ANIMATION->TYPES[9]){
+        }else if(ANIMATION == 9){
           pride();
-        }else if(ANIMATION->TYPES[10]){
+        }else if(ANIMATION == 10){
           sinelon();
-        }else if(ANIMATION->TYPES[11]){
+        }else if(ANIMATION == 11){
           bpm();
+        }else if(ANIMATION == 12){
+          ForestHeatMap();
+        }else if(ANIMATION == 13){
+          LavaHeatMap();
+        }else if(ANIMATION == 14){
+          CloudHeatMap();
+        }else if(ANIMATION == 15){
+          OceanHeatMap();
+        }else if(ANIMATION == 16){
+          RainbowStripeHeatMap();
+        }else if(ANIMATION == 17){
+          FairyHeatMap();
+        }else if(ANIMATION == 18){
+          HolyHeatMap();
+        }else if(ANIMATION == 19){
+          RetroC9_pHeatMap();
+        }else if(ANIMATION == 20){
+          TestAnim();
         }
         FastLED.show();
+        FastLED.setBrightness(currentBrightness);
         vTaskDelay(1000 / FRAMES_PER_SECOND);
       }
     }

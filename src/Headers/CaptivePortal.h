@@ -4,7 +4,9 @@
 
 class CaptiveRequestHandler : public AsyncWebHandler {
 public:
-  CaptiveRequestHandler() {HTTP_Requests();}
+  CaptiveRequestHandler() {
+    HTTP_Requests();
+  }
   virtual ~CaptiveRequestHandler() {}
   bool canHandle(AsyncWebServerRequest *request){
     return true;
@@ -27,18 +29,13 @@ static const inline void Handle_Captive(){
     server.addHandler(new CaptiveRequestHandler()).setFilter(ON_AP_FILTER);
     server.begin();
     delay(100);
-    IPAddress IP = WiFi.softAPIP();
-    Serial.print("Mood Lamp Started with ip: ");
-    Serial.println(IP);
 }
 
 void CaptivePortal( void * parameter ){
-  //Handle_STA();
-  //vTaskDelete(NULL);
-  //Handle_Captive();
-  /*for ever{
+  Handle_Captive();
+  for ever{
     dnsServer.processNextRequest();
     vTaskDelay(1);
-  }*/
+  }
 }
 #endif

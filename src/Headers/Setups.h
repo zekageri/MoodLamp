@@ -1,7 +1,8 @@
 #ifndef Setups_h
 #define Setups_h
 
-static const inline void I2C_Begin(){Wire.begin(21,22,400000);}
+
+static const inline void I2C_Begin(){Wire.begin(SDA,SCL,400000);}
 static const inline void Get_Config(){}
 
 const char* STA_ssid = "Emelet";
@@ -35,7 +36,8 @@ static const inline void Handle_STA(){
 static const inline void Main_Setup(){
     Serial.begin(115200);
     I2C_Begin();
-    Handle_STA();
+    delay(200);
+    //adxl_Setup();
     Init_Tasks();
 }
 

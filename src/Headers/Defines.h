@@ -1,19 +1,16 @@
 #ifndef Defines_h
 #define Defines_h
 
-    //#define FASTLED_ALLOW_INTERRUPTS 0
-    //#define FASTLED_INTERRUPT_RETRY_COUNT 1
-
     /** TASKS **/
     xTaskHandle File_System_Task_Handle;
     xTaskHandle Time_System_Task_Handle;
     xTaskHandle Animation_Task_Handle;
-    xTaskHandle CaptivePortal_Task_Handle;
+    xTaskHandle CaptivePortal_Task_Handle; 
     /** TASKS **/
+    
     #define ever (;;)
     #define FS_NO_GLOBALS
     #define U_LITTLEFS 100
-    #define CONFIG_LITTLEFS_CACHE_SIZE 512
     RTC_DS3231 rtc;
     
     DNSServer dnsServer;
@@ -22,28 +19,30 @@
     AsyncWebSocket ws("/MoodLamp");
 
 
+    // I2C
+    #define SCL 22
+    #define SDA 21
+    
+    boolean is_ADXL = false;
+    Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
+    
+    
     const char* ssid     = "KomaMoodLamp";
     const char* password = "komalamp12345";
 
-    /** LED STRIP ANIMATIONS **/
-    typedef struct{
-        boolean TEMPERATURE = 0,FIRE = 0,BASIC_FIRE = 0,RAINBOWWITHGLITTER = 0,RAINBOW = 0,JUGGLE = 0,WATER = 0,
-        FIRE_NEW = 0,PRIDE = 0, SINUS = 0, BPM = 0,CONFETTI = 0;
-        boolean TYPES[13] = 
-        {TEMPERATURE,FIRE,BASIC_FIRE,RAINBOWWITHGLITTER,RAINBOW,JUGGLE,WATER,FIRE_NEW,PRIDE,SINUS,BPM,CONFETTI};
-    }  Animation_types;
-    Animation_types ANIMATION[4];
+    const char *ErrorLog    = "/Errorlog.txt";
+    const char *Config      = "/Config.txt";
+    const char *CurrentAnimation      = "/CurrentAnimation.txt";
 
-    typedef struct{
-        boolean SOLIDBLUE = 0;
-        boolean TYPES[2] = {SOLIDBLUE};
-    } Static_types;
-    Static_types STATIC[2];
+    static const inline void Get_Animation(int ANIM);
 
-    const char *ErrorLog = "/Errorlog.txt";
-    const char *Config = "/Config.txt";
+    /** ADXL */
+        static const inline void adxl_Setup();
+    /** ADXL */
     /** FILE SYSTEM */
         static const inline void File_System_Init();
+        static const inline void Save_Current_Animation(int animNUM);
+        static const inline int Get_Current_Animation();
     /** FILE SYSTEM */
 
     /** SOCKET DEFINES */

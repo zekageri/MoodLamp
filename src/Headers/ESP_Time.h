@@ -33,8 +33,8 @@ class ESP_Time
             Month   = now.month();
             Day     = now.day();
             Hour    = now.hour();
-            Min     = now.minute()+5;
-            Sec     = now.second()+30;
+            Min     = now.minute();
+            Sec     = now.second();
             CurrentDay = daysOfTheWeek[now.dayOfTheWeek()];
         }
 
@@ -62,6 +62,7 @@ class ESP_Time
             if(Sec > 59){
                 Sec = 0;
                 Min++;
+                ws.cleanupClients();
                 if(Min > 59){
                     Min = 0;
                     Hour++;
