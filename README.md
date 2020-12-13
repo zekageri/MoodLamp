@@ -9,7 +9,9 @@ What will it do:
   - Change Color on the web at runtime
   - Variable brightness on the fly ( at animation run or static color )
   - The lamp will optionally remember the last adjusted animation and brightness and it will return to it at bootup.
+  
   TO DO: 
+  
   - Variable auto turn on with favourite color or animation at defined time every day ( in progress )
   - Create custom animations on the web ( in progress )
   - Optionally set wake on time ( user can set the wake on time on the web, like turn on for 20 min with x color or animation )
