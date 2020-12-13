@@ -1,6 +1,8 @@
 #ifndef File_System_h
 #define File_System_h
 
+    static const inline void File_System_Init(){LITTLEFS.begin();}
+
     String Error_Log(String szoveg){
         File f = LITTLEFS.open(ErrorLog, "a");
         if (!f) {} else {
@@ -24,6 +26,44 @@
                     ErrorLogFile.close();
                 }
             }
+        }
+    }
+
+    static const inline void Save_Current_Animation(int animNUM){
+        File f = LITTLEFS.open(CurrentAnimation, "w");
+        if (!f) {Error_Log("Can't open currentAnimation File for save!");} 
+        else {f.print(animNUM);f.print("!");f.print(currentBrightness);}
+        f.close();
+    }
+
+    static const inline int Get_Current_Animation(){
+        if(LITTLEFS.exists(CurrentAnimation)){
+            String ANIM = "",CrBright = "";
+            boolean isOpened = false;
+            File f = LITTLEFS.open(CurrentAnimation, "r");
+            if (!f) {Error_Log("Can't open currentAnimation File for read!");
+            }else {
+                boolean FoundFirst = false;
+                for (int i = 0; i < f.size(); i++){
+                    char Buffer[1];
+                    Buffer[0] = (char)f.read();
+                    if(Buffer[0] == '!' || FoundFirst){
+                        FoundFirst = true;
+                        CrBright += Buffer[0];
+                    }else{
+                        ANIM += (char)f.read();
+                    }
+                    
+                }
+                isOpened = true;
+            }
+            f.close();
+            if(isOpened){
+                currentBrightness = CrBright.toInt();
+                return ANIM.toInt();
+            }else{return -1;}
+        }else{
+            return -1;
         }
     }
 
@@ -84,10 +124,11 @@
     }
 
     void File_System( void * parameter ){
+        File_System_Init();
         for ever{
             Dynamic_File_Size_Manager();
             Monitor_Space();
-            vTaskDelay(5);
+            vTaskDelay(10);
         }
     }
 #endif
