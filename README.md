@@ -14,7 +14,7 @@ What will it do:
   The lamp will optionally remember the last adjusted animation and brightness and it will return to it at bootup.
  
 Hardware:
-  All the components will be inside a glass hood wich is fogged.
+  All the components will be inside a glass hood wich is fogged. ( Not the case anymore )
   
   Contains:
    - Core processor: ESP32 WROOM-32 4mb https://www.aliexpress.com/item/32819907815.html?spm=a2g0s.9042311.0.0.27424c4dnINARN
